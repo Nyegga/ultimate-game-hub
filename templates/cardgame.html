@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🎴 Card Game</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+  }
+  .container {
+    background: white;
+    width: 420px;
+    max-width: 100%;
+    padding: 35px 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(248, 181, 0, 0.3);
+    text-align: center;
+  }
+  h1 {
+    font-weight: 700;
+    color: #b27a00;
+    margin-bottom: 30px;
+    letter-spacing: 1.4px;
+    user-select: none;
+  }
+  form label {
+    display: block;
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #805600;
+  }
+  input[type=number] {
+    width: 100%;
+    padding: 15px 18px;
+    border: 2px solid #b27a00;
+    border-radius: 14px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  input[type=number]:focus {
+    border-color: #f9a825;
+  }
+  button {
+    margin-top: 28px;
+    width: 100%;
+    padding: 18px 0;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: white;
+    background: #f9a825;
+    border: none;
+    border-radius: 35px;
+    box-shadow: 0 8px 30px rgba(249, 168, 37, 0.7);
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: #c17900;
+  }
+  .result {
+    margin-top: 32px;
+    font-weight: 700;
+    color: #b27a00;
+    font-size: 1.2rem;
+    user-select: text;
+    line-height: 1.6;
+  }
+  .dare {
+    margin-top: 16px;
+    font-style: italic;
+    color: #805600;
+    font-weight: 600;
+  }
+  a.home-link {
+    display: inline-block;
+    margin-top: 38px;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #b27a00;
+    text-decoration: none;
+    border: 2px solid #b27a00;
+    padding: 12px 30px;
+    border-radius: 35px;
+    transition: all 0.3s ease;
+  }
+  a.home-link:hover {
+    background: #b27a00;
+    color: white;
+  }
+</style>
+</head>
+<body>
+  <div class="container" role="main">
+    <h1>🎴 Card Game</h1>
+    <form method="POST" novalidate>
+      <label for="bet">Bet Amount (₹):</label>
+      <input
+        type="number"
+        name="bet"
+        id="bet"
+        min="1"
+        required
+        placeholder="Enter your bet"
+        aria-describedby="betHelp"
+      />
+      <button type="submit" aria-label="Draw Cards">Draw Cards</button>
+    </form>
+
+    {% if result %}
+      <div class="result" role="alert">
+        {{ result }}<br>
+        💰 Your Balance: ₹{{ user_money }}<br>
+        🧮 Opponent Balance: ₹{{ opponent_money }}
+      </div>
+    {% endif %}
+
+    {% if dare %}
+      <div class="dare" role="note">🧨 Dare: {{ dare }}</div>
+    {% endif %}
+
+    <a href="{{ url_for('home') }}" class="home-link" aria-label="Back to Home">🏠 Back to Home</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <title>✂️ Rock Paper Scissors</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffe3e3, #ffafaf);
+      color: #3a1c1c;
+      text-align: center;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 20px;
+      user-select: none;
+    }
+    h2 {
+      font-size: 2.8rem;
+      color: #b22222;
+      text-shadow: 0 2px 6px rgba(178, 34, 34, 0.7);
+      margin-bottom: 10px;
+      user-select: none;
+    }
+    .balance {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #4a1a1a;
+    }
+    form {
+      margin-top: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      user-select: none;
+    }
+    .choices {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      user-select: none;
+    }
+    .choice-btn {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 3px solid #b22222;
+      background: white;
+      box-shadow: 0 8px 15px rgba(178, 34, 34, 0.35);
+      font-size: 2.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+    .choice-btn:hover, .choice-btn:focus {
+      background: #b22222;
+      color: white;
+      transform: scale(1.1);
+      box-shadow: 0 12px 22px rgba(178, 34, 34, 0.65);
+      outline: none;
+    }
+    input[type="number"] {
+      padding: 12px 15px;
+      border-radius: 12px;
+      border: 2px solid #b22222;
+      font-size: 1.1rem;
+      width: 180px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+    input[type="number"]:focus {
+      border-color: #7f0000;
+    }
+    button.submit-btn {
+      background: #b22222;
+      color: white;
+      border: none;
+      padding: 14px 40px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(178, 34, 34, 0.5);
+      transition: background 0.3s ease;
+    }
+    button.submit-btn:hover {
+      background: #7f0000;
+    }
+    .result {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #7f0000;
+      min-height: 3rem;
+      margin-top: 15px;
+      user-select: text;
+    }
+    .dare {
+      font-style: italic;
+      color: #5a1a1a;
+      font-weight: 600;
+      margin-top: 15px;
+      max-width: 300px;
+      user-select: text;
+    }
+    a.back-btn {
+      margin-top: 30px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #b22222;
+      border: 2px solid #b22222;
+      padding: 10px 30px;
+      border-radius: 30px;
+      transition: background 0.3s ease, color 0.3s ease;
+      user-select: none;
+      display: inline-block;
+    }
+    a.back-btn:hover {
+      background: #b22222;
+      color: white;
+      box-shadow: 0 7px 18px rgba(178, 34, 34, 0.7);
+    }
+  </style>
+</head>
+<body>
+  <h2>✂️ Rock Paper Scissors</h2>
+
+  <div class="balance" aria-live="polite">
+    Your Money: ₹{{ user_money }} | Opponent: ₹{{ opponent_money }}
+  </div>
+
+  <form method="POST" aria-label="Rock Paper Scissors Game Form">
+    <input
+      type="number"
+      name="bet"
+      min="1"
+      max="{{ user_money }}"
+      required
+      placeholder="Enter your bet (₹)"
+      aria-describedby="betHelp"
+    />
+    <div class="choices" role="radiogroup" aria-label="Choose your move">
+      <label>
+        <input type="radio" name="choice" value="rock" required hidden />
+        <button type="button" class="choice-btn" aria-label="Choose Rock" title="Rock">✊</button>
+      </label>
+      <label>
+        <input type="radio" name="choice" value="paper" required hidden />
+        <button type="button" class="choice-btn" aria-label="Choose Paper" title="Paper">✋</button>
+      </label>
+      <label>
+        <input type="radio" name="choice" value="scissors" required hidden />
+        <button type="button" class="choice-btn" aria-label="Choose Scissors" title="Scissors">✌️</button>
+      </label>
+    </div>
+    <button type="submit" class="submit-btn" aria-label="Submit your move and bet">Play</button>
+  </form>
+
+  <div class="result" role="alert">{{ message }}</div>
+
+  {% if dare %}
+    <div class="dare" role="note">🧨 Dare: {{ dare }}</div>
+  {% endif %}
+
+  <a href="{{ url_for('home') }}" class="back-btn" aria-label="Back to home">← Back to Home</a>
+
+  <script>
+    // JS to allow clicking emoji buttons to check hidden radios for accessibility & UX
+    const choiceButtons = document.querySelectorAll('.choice-btn');
+    choiceButtons.forEach((btn, idx) => {
+      btn.addEventListener('click', () => {
+        const radios = document.querySelectorAll('input[name="choice"]');
+        radios.forEach(r => r.checked = false);
+        radios[idx].checked = true;
+        // Visual toggle active
+        choiceButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

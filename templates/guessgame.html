@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🎯 Guess the Number</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .container {
+    background: white;
+    width: 400px;
+    max-width: 100%;
+    padding: 35px 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 45px rgba(0, 123, 255, 0.25);
+    text-align: center;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: 2.4rem;
+    color: #1565c0;
+    margin-bottom: 28px;
+    letter-spacing: 1.5px;
+    user-select: none;
+  }
+  form label {
+    display: block;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #0d47a1;
+    margin-bottom: 8px;
+    text-align: left;
+  }
+  input[type=number] {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1.1rem;
+    border: 2px solid #1976d2;
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  input[type=number]:focus {
+    border-color: #42a5f5;
+  }
+  button {
+    margin-top: 28px;
+    width: 100%;
+    padding: 16px 0;
+    background: #1565c0;
+    color: white;
+    font-weight: 700;
+    font-size: 1.25rem;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(21, 101, 192, 0.6);
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: #42a5f5;
+  }
+  .message {
+    margin-top: 32px;
+    background: #bbdefb;
+    color: #0d47a1;
+    font-weight: 600;
+    font-size: 1.25rem;
+    padding: 18px;
+    border-radius: 16px;
+    user-select: text;
+  }
+  .dare {
+    margin-top: 15px;
+    background: #f8bbd0;
+    color: #880e4f;
+    font-weight: 700;
+    border-radius: 16px;
+    padding: 15px;
+    border: 2px dashed #880e4f;
+  }
+  a.home-link {
+    display: inline-block;
+    margin-top: 32px;
+    padding: 12px 28px;
+    border-radius: 16px;
+    border: 2px solid #1565c0;
+    text-decoration: none;
+    font-weight: 700;
+    color: #1565c0;
+    transition: all 0.3s ease;
+  }
+  a.home-link:hover {
+    background: #1565c0;
+    color: white;
+  }
+</style>
+</head>
+<body>
+  <div class="container" role="main">
+    <h1>🎯 Guess the Number</h1>
+    <form method="POST" novalidate>
+      <label for="bet">Bet Amount (₹):</label>
+      <input
+        type="number"
+        name="bet"
+        id="bet"
+        min="1"
+        required
+        placeholder="Enter your bet"
+        aria-describedby="betHelp"
+      />
+      <label for="guess">Your Guess (1 to 20):</label>
+      <input
+        type="number"
+        name="guess"
+        id="guess"
+        min="1"
+        max="20"
+        required
+        placeholder="Guess a number"
+        aria-describedby="guessHelp"
+      />
+      <button type="submit" aria-label="Submit your guess">Guess</button>
+    </form>
+
+    {% if message %}
+      <div class="message" role="alert">{{ message }}</div>
+    {% endif %}
+
+    {% if dare %}
+      <div class="dare" role="note">🧨 Dare: {{ dare }}</div>
+    {% endif %}
+
+    <a href="{{ url_for('home') }}" class="home-link" aria-label="Back to Home">🏠 Back to Home</a>
+  </div>
+</body>
+</html>

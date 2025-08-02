@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🎰 Slot Machine</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap');
+  body {
+    background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%);
+    font-family: 'Montserrat', sans-serif;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .container {
+    background: white;
+    max-width: 420px;
+    padding: 35px 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(255, 181, 0, 0.35);
+    text-align: center;
+  }
+  h1 {
+    color: #f57c00;
+    font-weight: 700;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+  }
+  form label {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #f57c00;
+    display: block;
+    margin-bottom: 8px;
+    text-align: left;
+  }
+  input[type=number] {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 15px;
+    border: 2px solid #f57c00;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.25s ease;
+  }
+  input[type=number]:focus {
+    border-color: #ffb300;
+  }
+  button {
+    margin-top: 25px;
+    width: 100%;
+    background: #f57c00;
+    color: white;
+    padding: 16px 0;
+    font-weight: 700;
+    font-size: 18px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(245, 124, 0, 0.5);
+    transition: background 0.3s ease;
+  }
+  button:hover, button:focus {
+    background: #ffb300;
+    outline: none;
+  }
+  .result {
+    margin-top: 30px;
+    background: #fff3e0;
+    border-radius: 15px;
+    padding: 20px;
+    font-weight: 600;
+    color: #e65100;
+    font-size: 18px;
+  }
+  .dare {
+    margin-top: 15px;
+    background: #ffccbc;
+    color: #bf360c;
+    border-radius: 15px;
+    border: 2px dashed #bf360c;
+    padding: 15px;
+    font-weight: 700;
+  }
+  a.home-link {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 25px;
+    border-radius: 15px;
+    border: 2px solid #f57c00;
+    text-decoration: none;
+    font-weight: 700;
+    color: #f57c00;
+    transition: all 0.3s ease;
+  }
+  a.home-link:hover, a.home-link:focus {
+    background: #f57c00;
+    color: white;
+    outline: none;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎰 Slot Machine</h1>
+    <form method="POST" aria-label="Slot machine betting form">
+      <label for="bet">Bet Amount (₹):</label>
+      <input
+        type="number"
+        name="bet"
+        id="bet"
+        min="1"
+        max="{{ user_money }}"
+        required
+        placeholder="Place your bet"
+        aria-describedby="betHelp"
+      />
+      <button type="submit">Spin!</button>
+    </form>
+
+    {% if result %}
+      <div class="result" role="alert">{{ result }}</div>
+    {% endif %}
+
+    {% if dare %}
+      <div class="dare" role="note">🎲 Dare: {{ dare }}</div>
+    {% endif %}
+
+    <a href="{{ url_for('home') }}" class="home-link" aria-label="Back to Home">← Back to Home</a>
+  </div>
+</body>
+</html>

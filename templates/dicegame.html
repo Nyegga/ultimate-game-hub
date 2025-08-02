@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🎲 Dice Game</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+    color: #1a237e;
+    text-align: center;
+    padding: 40px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+  }
+  h2 {
+    font-size: 3rem;
+    color: #283593;
+    margin-bottom: 15px;
+    user-select: none;
+  }
+  .balance {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #3f51b5;
+  }
+  form {
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 14px 36px rgba(40, 53, 147, 0.3);
+    padding: 35px 30px;
+    max-width: 380px;
+    width: 100%;
+  }
+  input[type=number] {
+    width: 100%;
+    padding: 15px 22px;
+    font-size: 1.3rem;
+    border-radius: 22px;
+    border: 2px solid #3f51b5;
+    outline-offset: 3px;
+    outline-color: #7986cb;
+    transition: border-color 0.3s ease;
+  }
+  input[type=number]:focus {
+    border-color: #303f9f;
+  }
+  button {
+    margin-top: 30px;
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(45deg, #3f51b5, #7986cb);
+    border: none;
+    border-radius: 35px;
+    color: white;
+    font-weight: 700;
+    font-size: 1.4rem;
+    box-shadow: 0 8px 26px rgba(63, 81, 181, 0.6);
+    cursor: pointer;
+    transition: background 0.4s ease;
+  }
+  button:hover {
+    background: linear-gradient(45deg, #283593, #5c6bc0);
+    box-shadow: 0 12px 38px rgba(40, 53, 147, 0.8);
+  }
+  .result {
+    margin-top: 35px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #283593;
+    user-select: text;
+    min-height: 3rem;
+  }
+  .dare {
+    margin-top: 12px;
+    font-style: italic;
+    color: #1a237e;
+    font-weight: 600;
+  }
+  a.home-link {
+    margin-top: 40px;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #3f51b5;
+    text-decoration: none;
+    border: 2px solid #3f51b5;
+    padding: 12px 28px;
+    border-radius: 35px;
+    transition: background 0.3s ease, color 0.3s ease;
+    user-select: none;
+    display: inline-block;
+  }
+  a.home-link:hover {
+    background: #3f51b5;
+    color: white;
+    box-shadow: 0 8px 26px rgba(63, 81, 181, 0.7);
+  }
+</style>
+</head>
+<body>
+  <h2>🎲 Dice Game</h2>
+  <div class="balance">
+    Your Money: ₹{{ user_money }} | Opponent: ₹{{ opponent_money }}
+  </div>
+  <form method="POST" autocomplete="off" role="form">
+    <input
+      type="number"
+      name="bet"
+      placeholder="Enter your bet"
+      min="1"
+      max="{{ user_money }}"
+      required
+      aria-label="Bet amount"
+    />
+    <button type="submit" aria-label="Roll dice">Roll Dice</button>
+  </form>
+  {% if message %}
+    <div class="result" role="alert">{{ message|safe }}</div>
+  {% endif %}
+  {% if dare %}
+    <div class="dare" role="note">🧨 Dare: {{ dare }}</div>
+  {% endif %}
+  <a href="{{ url_for('home') }}" class="home-link" aria-label="Back to Home">🏠 Back to Home</a>
+</body>
+</html>
